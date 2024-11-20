@@ -15,7 +15,6 @@ from typing import (
     Literal,
     NamedTuple,
     Optional,
-    ParamSpec,
     Sequence,
     Type,
     TypeVar,
@@ -24,7 +23,7 @@ from typing import (
 )
 
 from langchain_core.runnables import Runnable, RunnableConfig
-from typing_extensions import Self
+from typing_extensions import ParamSpec, Self
 
 from langgraph.checkpoint.base import BaseCheckpointSaver, CheckpointMetadata
 
