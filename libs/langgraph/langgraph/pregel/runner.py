@@ -142,8 +142,12 @@ class PregelRunner:
             task: PregelExecutableTask,
             func: Callable[[Any], Union[Awaitable[Any], Any]],
             input: Any,
+            *,
+            retry: Optional[RetryPolicy] = None,
         ) -> concurrent.futures.Future[Any]:
-            (fut,) = writer(task, [(PUSH, None)], calls=[Call(func, input)])
+            (fut,) = writer(
+                task, [(PUSH, None)], calls=[Call(func, input, retry=retry)]
+            )
             assert fut is not None, "writer did not return a future for call"
             return fut
 
@@ -319,8 +323,12 @@ class PregelRunner:
             task: PregelExecutableTask,
             func: Callable[[Any], Union[Awaitable[Any], Any]],
             input: Any,
+            *,
+            retry: Optional[RetryPolicy] = None,
         ) -> Union[asyncio.Future[Any], concurrent.futures.Future[Any]]:
-            (fut,) = writer(task, [(PUSH, None)], calls=[Call(func, input)])
+            (fut,) = writer(
+                task, [(PUSH, None)], calls=[Call(func, input, retry=retry)]
+            )
             assert fut is not None, "writer did not return a future for call"
             if asyncio.iscoroutinefunction(func):
                 return fut
